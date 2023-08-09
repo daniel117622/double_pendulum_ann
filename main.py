@@ -1,10 +1,13 @@
 import gymnasium
 import time
+from nn_model import NeuralNetwork
 
 env         = gymnasium.make("InvertedDoublePendulum-v4", render_mode='human')
 observation = env.reset()
 done        = False
 trials      = 0
+
+nn = NeuralNetwork()
 
 print(env.action_space.sample())
 action = [0]
