@@ -8,12 +8,14 @@ done        = False
 trials      = 0
 
 nn = NeuralNetwork()
+nn.compile()
+
 
 print(env.action_space.sample())
 action = [0]
 while trials <= 1000:
     observation, reward, done, info, _ = env.step(action)
-    action = [-observation[5]]
+    action = [nn.inference(observation)]
     env.render()
     time.sleep(0.05)
     if done:
