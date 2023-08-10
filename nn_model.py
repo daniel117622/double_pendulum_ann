@@ -7,8 +7,9 @@ import sys
 class NeuralNetwork():
     def __init__(self) -> None:
         self.model = Sequential()
-        self.model.add(Dense(11, activation='relu', input_shape=(11,)))
-        self.model.add(Dense(1))
+        self.model.add(Dense(12, activation='sigmoid', input_shape=(32,)))  
+        self.model.add(Dense(24, activation='sigmoid')) 
+        self.model.add(Dense(1))  
     
     def compile(self):
         self.model.compile(loss='mean_squared_error', optimizer='adam', metrics=['accuracy'])
