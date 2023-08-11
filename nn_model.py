@@ -7,7 +7,7 @@ import sys
 class NeuralNetwork():
     def __init__(self) -> None:
         self.model = Sequential()
-        self.model.add(Dense(12, activation='sigmoid', input_shape=(32,)))  
+        self.model.add(Dense(8, activation='sigmoid', input_shape=(8,)))  
         self.model.add(Dense(24, activation='sigmoid')) 
         self.model.add(Dense(1))  
     
@@ -26,3 +26,6 @@ class NeuralNetwork():
         sys.stdout = original_stdout
         return predictions[0][0]
     
+    def train(self,x_train,y_train):
+        self.model.fit(x_train,y_train,epochs=10, batch_size=1)
+        self.model.save('model.h5')

@@ -22,7 +22,7 @@ input_vector = np.zeros(12)  # Initialize with 32 zeros
 action = [0]
 idx = 0
 
-while trials <= 1000:
+while trials <= 100:
     observation, reward, done, info, _ = env.step(action)
     action = env.action_space.sample()
 
@@ -37,18 +37,37 @@ while trials <= 1000:
     input_vector[8]  = observation[8]
     input_vector[9]  = observation[9]
     input_vector[10] = observation[10]
-    input_vector[11] = action
+    input_vector[11] = reward
 
     # Save the increase in reward between the current reward and the previous reward
-    all_trials_y.append([reward])
+    all_trials_y.append(action)
     all_trials_x.append(input_vector)
     idx += 1
     if done or idx >= 32:
-        
-        print(reward)
         trials += 1
         env.reset()
         input_vector = np.zeros(12) 
         idx = 0
 
-env.close()
+
+all_trials_x  =  np.array(all_trials_x)
+all_trials_y  =  np.array(all_trials_y)
+
+nn.train(all_trials_x, all_trials_y)
+all_trials_x[0][11] = 10
+action = nn.inference(all_trials_x[0])
+print(action)
+
+trials = 0
+while trials <= 100:
+    observation, reward, done, info, _ = env.step([action])
+    state = [ *observation , 10 ] 
+    action = [nn.inference(state)]
+    print(action)
+    time.sleep(0.25)
+    if done:
+        trials += 1
+        env.reset()
+        input_vector = np.zeros(12) 
+        idx = 0
+
